@@ -1,32 +1,33 @@
 import pandas as pd
 import numpy as np
-import os
-import spacy
-from spacy import displacy
-import networkx as nx
+import pdfplumber
 
-import matplotlib.pyplot as plt
+# !python -m spacy download en_core_web_sm
 
-
-def ner(file_name):
+def ner(file_path, start_page, nlp):
     """
-    Function to process text from a text file (.txt) using Spacy.
+    Function to process text from a PDF file using Spacy.
     
     Params:
-    file_name -- name of a txt file as string
+    file_path -- path of the PDF file as string
+    start_page -- page number to start extracting text from
     
     Returns:
-    a processed doc file using Spacy English language model
-    
+    A processed Doc object using Spacy English language model
     """
-    # Load spacy English languague model
-    nlp = spacy.load("en_core_web_sm")
-    book_text = open(file_name).read()
+    
+
+    with pdfplumber.open(file_path) as pdf:
+        # Extract the text content starting from the specified page
+        book_text = ""
+        for page in pdf.pages[start_page - 1:]:
+            book_text += page.extract_text()
+
+    # Perform NER on the text content
     book_doc = nlp(book_text)
     
     return book_doc
-
-
+        
 def get_ne_list_per_sentence(spacy_doc):
     """
     Get a list of entites per sentence of a Spacy document and store in a dataframe.
