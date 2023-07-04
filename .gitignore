@@ -1,2 +1,5 @@
 venv
-lib\utils\__pycache__
+lib/utils/__pycache__
+lib/tom-select
+lib/bindings
+lib/vis-9.1.2

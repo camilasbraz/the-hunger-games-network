@@ -65,7 +65,8 @@ def filter_entity(ent_list, character_df):
     """
     return [ent for ent in ent_list 
             if ent in list(character_df.character) 
-            or ent in list(character_df.character_firstname)]
+            or ent in list(character_df.character_firstname)
+            or ent in list(character_df.character_nickname)]
 
 
 def create_relationships(df, window_size):
